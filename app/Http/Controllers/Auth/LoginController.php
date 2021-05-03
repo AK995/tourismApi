@@ -21,6 +21,12 @@ class LoginController extends BaseController
             return $this->response->errorUnauthorized();
         }
 
+        // 检查用户状态
+        $user = auth('api')->user(); //获取登录用户的信息
+        if($user->is_locked == 1) {
+            return $this->response->errorForbidden('该用户已登录！');
+        }
+
         return $this->respondWithToken($token);
     }
 
