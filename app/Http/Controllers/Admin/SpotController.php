@@ -15,7 +15,8 @@ class SpotController extends BaseController
      */
     public function index()
     {
-        //
+        $spots = Spot::all();
+        return $spots;
     }
 
     /**
@@ -50,17 +51,6 @@ class SpotController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
     {
         //
     }
