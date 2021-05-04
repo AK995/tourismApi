@@ -26,5 +26,7 @@ class Spot extends Model
         'spot_name',
         'content',
         'spot_img',
+        'pid',
+        'level'
     ];
 }

@@ -28,7 +28,18 @@ class SpotController extends BaseController
             'locale_name' => 'required|max:16'],
             ['locale_name.required' => '地区不能为空']
         );
-        Spot::create($request->only(['locale_name','content'])); 
+
+        $pid = $request->input('pid',0);
+        $insertData = [
+            'locale_name' => $request->input('locale_name'),
+            'content' => $request->input('content'),
+            'pid' => $pid,
+            'level' => $pid == 0 ? 1 : (Spot::find($pid)->level + 1)
+        ];
+
+        // 计算level
+
+        Spot::create($insertData); 
         return $this->response->created();
     }
 
