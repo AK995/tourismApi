@@ -13,7 +13,7 @@ class Spot extends Model
     public $table = 'spots';
 
     // 2.关联表的主键
-    public $primarKey = 'id';
+    public $primarKey = 'spot_id';
 
     /**
      * The attributes that are mass assignable.
@@ -22,11 +22,20 @@ class Spot extends Model
      */
     protected $fillable = [
         'locale_name',
-        'city_name',
         'spot_name',
-        'content',
-        'spot_img',
-        'pid',
-        'level'
+        'avatar',
+        'level',
+        'intro',
+        'ticket_info',
+        'favor_policy',
+        'open_time',
+        'tips',
+        'trans',
+        'pics'
+    ];
+
+    // 强制转换的属性
+    protected $casts = [
+        'pics' => 'array',
     ];
 }

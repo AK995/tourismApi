@@ -14,9 +14,9 @@ class SpotApiController extends BaseController
     public function search(Request $request)
     {
         $isExist = 1;
-        $searchContent = $request->input('locale_name','content');
+        $searchContent = $request->input('locale_name','spot_name','open_time');
 
-        $spotsList = Spot::where('locale_name','like', "%{$searchContent}%")->orWhere('content','like', "%{$searchContent}%")
+        $spotsList = Spot::where('locale_name','like', "%{$searchContent}%")->orWhere('spot_name','like', "%{$searchContent}%")
                 ->get()
                 ->toArray();
         if($spotsList == []){

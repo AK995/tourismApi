@@ -15,8 +15,12 @@ $params = [
     'expires' => 1
 ];
 
+// 登录后用到的路由
 $api->version('v1', $params , function ($api) {
     $api->group(['prefix' => 'admin'],function($api) {
+
+        $api->post('users/avatar','App\Http\Controllers\Admin\SpotController@img');
+
         // 需要登陆的路由
         $api->group(['middleware' => 'api.auth'],function($api) {
             /**
@@ -37,6 +41,8 @@ $api->version('v1', $params , function ($api) {
             $api->resource('users',App\Http\Controllers\Admin\SpotController::class,[
                 'except' => ['destroy']
             ]);
+
+           
             
         });
     });

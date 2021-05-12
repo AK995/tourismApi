@@ -8,6 +8,12 @@ use App\Models\User;
 
 class RegisterController extends BaseController
 {
+
+    public function toStore(RegisterRequest $request){
+        
+        return view('register');
+    }
+
     /**
      * 用户注册
      */

@@ -26,6 +26,7 @@ $api->version('v1', $params, function ($api) {
         $api->group(['prefix' => 'auth'], function ($api) {
             // 注册
             $api->post('register','App\Http\Controllers\Auth\RegisterController@store');
+            
 
             // 需要登陆的路由
             $api->group(['middleware' => 'api.auth'], function ($api) {

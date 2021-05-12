@@ -16,3 +16,4 @@ $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 60, 'expires' =>
         });
     });
 });
+
