@@ -18,8 +18,15 @@ $params = [
 // 登录后用到的路由
 $api->version('v1', $params , function ($api) {
     $api->group(['prefix' => 'admin'],function($api) {
-
-        $api->post('users/avatar','App\Http\Controllers\Admin\SpotController@img');
+        
+        /**
+        * 景点信息管理
+        */
+        // 景点信息管理资源路由
+        $api->resource('search',App\Http\Controllers\Admin\SpotController::class,[
+            'except' => ['destroy']
+        ]);
+ 
 
         // 需要登陆的路由
         $api->group(['middleware' => 'api.auth'],function($api) {
@@ -33,16 +40,6 @@ $api->version('v1', $params , function ($api) {
             $api->resource('users',App\Http\Controllers\Admin\UserController::class,[
                 'only' => ['index','show']
             ]);
- 
-            /**
-             * 景点信息管理
-             */
-            // 景点信息管理资源路由
-            $api->resource('users',App\Http\Controllers\Admin\SpotController::class,[
-                'except' => ['destroy']
-            ]);
-
-           
             
         });
     });

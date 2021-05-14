@@ -81,44 +81,41 @@ class SpotController extends BaseController
     }
 
     /**
-     * 上传图片
+     * 图片上传功能
      */
-    public function uploadImg(Request $request){
-        $request->validate([
-            'avatar' => 'required',
-        ],[
-            'avatar.required' => '图片不能为空'
-        ]);
+    public function upload(Request $request){
+        //上传文件 功能实现方法
+        if ($request->isMethod('POST')){
+            $file = $request->file('source');
+            $spot_name = $request->spot_name;
+            //判断文件是否上传成功
+            if ($file->isValid()){
+                //原文件名
+                $originalName = $file->getClientOriginalName();
+                //扩展名
+                $ext = $file->getClientOriginalExtension();
+                //MimeType
+                $type = $file->getClientMimeType();
+                //临时绝对路径
+                $realPath = $file->getRealPath();
+                // dd($realPath);  //E:\xampp\tmp\php6202.tmp
 
-        $file = $request->avatar; //获取文件
-        // dd($file);
-        $folderName = "uploads/imgs/avatars/".date("Ym/d",time()); //生成保存图片的路径
+                // $filename = uniqid().'.'.$ext;
+                $filename = $spot_name.'.'.$ext;
+                // dd($filename); //609e214c563ff.PNG
 
-        $uploadPath = public_path(); //文件存储物理路径
-
-        // 获取文件的后缀名
-        $extension = strtolower($file->getClientOriginalExtension()) ? : 'png';
-
-        // 拼接文件名 值如：1_1493521050.png
-        $file_prefix = 1;
-        $filename = $file_prefix . '_' . time() . '.' . $extension;
-
-        $file->move($uploadPath,$filename); //将图片移动到我们的目标存储路径中
-        
-        $spot->avatar = $folderName.'/'.$filename;
-        $spot->save();
-        return $this->response->noContent();
-    }
-
-        public function img(Request $request){
-            $uploadPath = '';
-            switch($_FILES['photo']['error']){
-                case 0:
-                    $ftypes = ['image/gif','image/pjpeg','image/jpeg','/image/x-png'];
-                    $type = $_FILES['photo']['type'];
-                    if(in_array($type,$ftypes)){
-                        $fname = $_FILES['photo']['name'];
-                    }
+                $bool = Storage::disk('uploads')->put($filename,file_get_contents($realPath));
+                $spot = new Spot();
+                $spot->avatar = Spot::where('spot_name','LIKE','%$spot_name%')->update(['avatar'=>$filename],);
+                //判断是否上传成功
+                if($bool){
+                    echo 'you are success';
+                }else{
+                    echo 'fail';
+                }
             }
         }
+        return view('addSpot');
+
+    }
 }

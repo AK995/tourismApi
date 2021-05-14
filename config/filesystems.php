@@ -33,7 +33,7 @@ return [
         'local' => [
             'driver' => 'local',
             // 'root' => storage_path('app'),
-            'root' => public_path('storage'),
+            'root' => public_path('uploads/'.date('Ymd')),
         ],
 
         'public' => [
@@ -53,8 +53,14 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
-    ],
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path('uploads'),
+        ],
 
+    ],
+    
+        
     /*
     |--------------------------------------------------------------------------
     | Symbolic Links
