@@ -58,10 +58,7 @@ class SpotController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 显示景点信息
      */
     public function show(Spot $spot)
     {
@@ -81,9 +78,9 @@ class SpotController extends BaseController
     }
 
     /**
-     * 图片上传功能
+     * 景点图片上传功能
      */
-    public function upload(Request $request){
+    public function uploadAvatar(Request $request){
         //上传文件 功能实现方法
         if ($request->isMethod('POST')){
             $file = $request->file('source');
@@ -92,10 +89,13 @@ class SpotController extends BaseController
             if ($file->isValid()){
                 //原文件名
                 $originalName = $file->getClientOriginalName();
+
                 //扩展名
                 $ext = $file->getClientOriginalExtension();
+
                 //MimeType
                 $type = $file->getClientMimeType();
+
                 //临时绝对路径
                 $realPath = $file->getRealPath();
                 // dd($realPath);  //E:\xampp\tmp\php6202.tmp
@@ -106,7 +106,9 @@ class SpotController extends BaseController
 
                 $bool = Storage::disk('uploads')->put($filename,file_get_contents($realPath));
                 $spot = new Spot();
-                $spot->avatar = Spot::where('spot_name','LIKE','%$spot_name%')->update(['avatar'=>$filename],);
+                
+                $spot->avatar = Spot::where('spot_name','LIKE','%'.$spot_name.'%')->update(['avatar'=>$filename],);
+
                 //判断是否上传成功
                 if($bool){
                     echo 'you are success';
@@ -116,6 +118,21 @@ class SpotController extends BaseController
             }
         }
         return view('addSpot');
-
     }
+
+    public function uploadPics(Request $request){
+        $pics = $request->file('imgSrc');
+        $spot = new Spot();
+        $spot_name = $request->spot_name;
+        foreach($pics as $index => $pic){
+            $arr[$index] = $pic->store('imgSrc');
+            $spot->pics = Spot::where('spot_name','LIKE','%'.$spot_name.'%')->update(['pics'=>$arr[$index]],);
+        }
+        dd($spot->pics);
+        if($spot->pics){
+
+        }
+    return view('addPics');
+    }
+
 }

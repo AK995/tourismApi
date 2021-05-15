@@ -14,15 +14,16 @@ class SpotApiController extends BaseController
     public function search(Request $request)
     {
         $isExist = 1;
-        $searchContent = $request->input('locale_name','spot_name','open_time');
-
-        $spotsList = Spot::where('locale_name','like', "%{$searchContent}%")->orWhere('spot_name','like', "%{$searchContent}%")
-                ->get()
-                ->toArray();
-        if($spotsList == []){
-            $isExist = "抱歉，没有找到该景点";
-            return response()->json([0, '成功', $isExist]); 
+        $searchContent = $request->input('locale_name','spot_name');
+        $res = Spot::where('locale_name','like', '%'.$searchContent.'%')
+                    ->orWhere('spot_name','like','%'.$searchContent.'%')
+                    ->get()
+                    ->toArray();
+ 
+        if($res == []){
+            $isExist = '抱歉，没有找到该景点';
+            return response()->json(['code'=>200, '请求成功', $isExist]); 
         }
-        return response()->json([0, '成功', $spotsList]);
+        return response()->json(['code'=>200, '请求成功', $res]);
     }
 }

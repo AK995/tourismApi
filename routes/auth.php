@@ -2,8 +2,15 @@
 
 $api = app('Dingo\Api\Routing\Router');
 
+$params = [
+    'middleware' => 
+        'api.throttle',
+    'limit' => 60, 
+    'expires' => 1,
+];
+
 // 与注册登录验证等相关路由
-$api->version('v1', ['middleware' => 'api.throttle', 'limit' => 60, 'expires' => 1], function ($api) {
+$api->version('v1', $params , function ($api) {
     // 路由组
     $api->group(['prefix' => 'auth'], function ($api) {
         // 注册

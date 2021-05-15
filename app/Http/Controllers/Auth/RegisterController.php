@@ -22,8 +22,12 @@ class RegisterController extends BaseController
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
-        $user->save();
-
+        $user->is_locked = 0;
+        $res = $user->save();
+        
+        if($res){
+            return response()->json(['code' => 200,'msg' => '成功',$user]);
+        }
         return $this->response->created();
     }
 }

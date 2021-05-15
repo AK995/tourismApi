@@ -38,4 +38,6 @@ class Spot extends Model
     protected $casts = [
         'pics' => 'array',
     ];
+
+    protected $resultSetType = 'collection';
 }
