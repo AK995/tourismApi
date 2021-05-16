@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class SpotController extends BaseController
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 返回景点列表信息
      */
     public function index(Request $request)
     {
@@ -27,34 +25,16 @@ class SpotController extends BaseController
      */
     public function store(SpotRequest $request)
     {
-        // $request->validate([
-        //     'locale_name' => 'required|max:16'],
-        //     ['locale_name.required' => '地区不能为空'],
-        //     ['spot_name' => 'required|unique:spot'],
-        //     ['file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'],
-        // );
-        // $img = "";
-
-        // $insertData = [
-        //     'locale_name' => $request->input('locale_name'),
-        //     'spot_name' => $request->input('spot_name'),
-        //     'spot_img' => $img,
-        //     'level' => $pid == 0 ? 1 : (Spot::find($pid)->level + 1),
-        //     'intro' => $request->input('intro'),
-        //     'ticket_info' => $request->input('ticket_info'),
-        //     'favor_policy' => $request->input('favor_policy'),
-        //     'open_time' => $request->input('open_time'),
-        //     'tips' => $request->input('tips'),
-        //     'trans' => $request->input('trans'),
-        // ];
-
-        // // 计算level
-
-        // Spot::create($insertData); 
-        // return $this->response->created();
+        $request->validate(
+            ['locale_name' => 'required|max:16'],
+            ['locale_name.required' => '地区不能为空'],
+            ['spot_name' => 'required|unique:spot'],
+            ['spot_name.required' => '景点名不能为空'],
+            ['file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'],
+        );
 
         Spot::create($request->all());
-        return $this->response->created();
+        return response()->json(['code'=>200,'msg'=>'添加成功']);
     }
 
     /**
